@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
 
@@ -29,7 +29,13 @@ namespace RPG.Combat
             else
             {
                 mover.StopMoving();
+                AttackBehaviour();
             }
+        }
+
+        private void AttackBehaviour()
+        {
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
         private bool GetIsInRange()
@@ -46,6 +52,18 @@ namespace RPG.Combat
         public void CancelAttack()
         {
             target = null;
+        }
+
+        public void Cancel()
+        {
+            CancelAttack();
+            print("Stopped attacking");
+        }
+
+        // Animation Event
+        void Hit()
+        {
+
         }
     }
 }
