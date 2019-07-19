@@ -18,16 +18,19 @@ namespace RPG.Control
 
         private bool InteractWithCombat()
         {
-
+            Fighter fighter = GetComponent<Fighter>();
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
             {
+                
                 CombatTarget target = hit.collider.GetComponent<CombatTarget>();
                 if (target == null) continue;
                 
+                if (!fighter.CanAttack(target)) continue;
+                
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(target);
+                    fighter.Attack(target);
                 }
                 return true;
             }

@@ -4,13 +4,30 @@ namespace RPG.Combat
 {
     public class Health : MonoBehaviour
     {
-        [SerializeField] float health = 100f;
+        [SerializeField] float healthPoints = 100f;
 
+        bool isAlive = true;
+
+        public bool IsAlive()
+        {
+            return isAlive;
+        }
         public void TakeDamage(float damage)
         {
-            float calculatedHealth = health - damage;
-            health = (calculatedHealth > 0) ? calculatedHealth:0f;
-            print(health);
+            float calculatedHealth = healthPoints - damage;
+            healthPoints = (calculatedHealth > 0) ? calculatedHealth:0f;
+            print(healthPoints);
+            
+            if (healthPoints <= 0f && isAlive)
+            {
+                Die();
+            } 
+        }
+
+        public void Die()
+        {
+            GetComponent<Animator>().SetTrigger("die");
+            isAlive = false;
         }
     }
 }
