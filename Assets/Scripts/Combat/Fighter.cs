@@ -14,7 +14,7 @@ namespace RPG.Combat
 
         Mover mover;
         Health target;
-        float timeSinceLastAttack = 0;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         private void Start() 
         {
@@ -61,14 +61,14 @@ namespace RPG.Combat
             return Vector3.Distance(target.transform.position, mover.transform.position) <= weaponRange;
         }
 
-        public bool CanAttack(CombatTarget combatTarget) 
+        public bool CanAttack(GameObject combatTarget) 
         {
             if (combatTarget == null) return false;
             Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && targetToTest.IsAlive();
         }
 
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             
             GetComponent<ActionScheduler>().StartAction(this);

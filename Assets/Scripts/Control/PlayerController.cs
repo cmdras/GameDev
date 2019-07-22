@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -9,9 +10,15 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        Health health;
+
+        private void Start() {
+            health = GetComponent<Health>();
+        }
         // Update is called once per frame
         void Update()
         {
+            if (!health.IsAlive()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return; 
         }
@@ -25,12 +32,14 @@ namespace RPG.Control
                 
                 CombatTarget target = hit.collider.GetComponent<CombatTarget>();
                 if (target == null) continue;
+
+                GameObject targetGameObject = target.gameObject;
                 
-                if (!fighter.CanAttack(target)) continue;
+                if (!fighter.CanAttack(target.gameObject)) continue;
                 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    fighter.Attack(target);
+                    fighter.Attack(target.gameObject);
                 }
                 return true;
             }
